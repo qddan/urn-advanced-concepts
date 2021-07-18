@@ -8,6 +8,7 @@ export default function Ball() {
       x: 200,
       y: 500,
     },
+    useNativeDriver: false,
   }).start();
 
   return (
