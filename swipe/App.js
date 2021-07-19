@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, PanResponder } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import Deck from './src/Deck';
 
@@ -28,9 +28,23 @@ export default function App() {
     );
   }
 
+  function renderNoMoreCards() {
+    return (
+      <Card>
+        <Card.Title>All Done!</Card.Title>
+        <Text>There's no more content here!</Text>
+        <Button title="Get more!"></Button>
+      </Card>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <Deck data={DATA} renderCard={renderCard} />
+      <Deck
+        data={DATA}
+        renderCard={renderCard}
+        renderNoMoreCards={renderNoMoreCards}
+      />
     </View>
   );
 }
