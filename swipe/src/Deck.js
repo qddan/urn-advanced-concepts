@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Animated,
   PanResponder,
   View,
   Dimensions,
   StyleSheet,
+  UIManager,
 } from 'react-native';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -63,6 +64,12 @@ export default function Deck({
     }).start();
   }
 
+  useEffect(() => {
+    UIManager.setLayoutAnimationEnabledExperimental &&
+      UIManager.setLayoutAnimationEnabledExperimental(true);
+    Animated.spring();
+  }, []);
+
   function getCardStyle() {
     const rotate = position.x.interpolate({
       inputRange: [-SCREEN_WIDTH, 0, SCREEN_WIDTH],
@@ -85,7 +92,7 @@ export default function Deck({
           return (
             <Animated.View
               key={item.id}
-              style={[getCardStyle(), styles.cardStyle]}
+              style={[getCardStyle(), styles.cardStyle, { zIndex: 2 }]}
               {...panResponder.panHandlers}
             >
               {renderCard(item)}
@@ -94,9 +101,12 @@ export default function Deck({
         }
 
         return (
-          <View key={item.id} style={styles.cardStyle}>
+          <Animated.View
+            key={item.id}
+            style={[styles.cardStyle, { zIndex: 1, top: 10 * (i - index) }]}
+          >
             {renderCard(item)}
-          </View>
+          </Animated.View>
         );
       })
       .reverse();
